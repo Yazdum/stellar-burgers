@@ -6,12 +6,9 @@ import { updateUser } from '@services/slices/user';
 import { useDispatch, useSelector } from '@services/store';
 
 import type { TRegisterData } from '@api';
+import type { ProfileUIProps } from '@ui-pages/profile/type';
 
-type TProfileForm = {
-  name: string;
-  email: string;
-  password: string;
-};
+type TProfileForm = ProfileUIProps['formValue'];
 
 const emptyForm: TProfileForm = {
   name: '',

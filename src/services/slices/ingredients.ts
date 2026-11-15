@@ -1,12 +1,13 @@
 import { getIngredientsApi } from '@api';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
+import type { SerializedError } from '@reduxjs/toolkit';
 import type { TIngredient } from '@utils-types';
 
 type TIngredientsState = {
   items: TIngredient[];
   isLoading: boolean;
-  error: string | null;
+  error: SerializedError | null;
 };
 
 const initialState: TIngredientsState = {
@@ -36,7 +37,7 @@ const ingredientsSlice = createSlice({
       })
       .addCase(fetchIngredients.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.error.message ?? 'Не удалось загрузить ингредиенты';
+        state.error = action.error;
       });
   },
 });

@@ -22,7 +22,7 @@ const toApiError = (payload: unknown): Error => {
     payload !== null &&
     'message' in payload &&
     typeof payload.message === 'string'
-      ? payload.message
+      ? (payload as { message: string }).message
       : 'Не удалось выполнить запрос к серверу';
 
   return new Error(message, { cause: payload });

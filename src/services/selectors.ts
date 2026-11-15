@@ -1,10 +1,11 @@
 import type { RootState } from './store';
+import type { SerializedError } from '@reduxjs/toolkit';
 
 export const selectIngredients = (state: RootState): RootState['ingredients']['items'] =>
   state.ingredients.items;
 export const selectIngredientsLoading = (state: RootState): boolean =>
   state.ingredients.isLoading;
-export const selectIngredientsError = (state: RootState): string | null =>
+export const selectIngredientsError = (state: RootState): SerializedError | null =>
   state.ingredients.error;
 export const selectConstructor = (state: RootState): RootState['burgerConstructor'] =>
   state.burgerConstructor;
