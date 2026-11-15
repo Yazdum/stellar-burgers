@@ -21,8 +21,8 @@ const toApiError = (payload: unknown): Error => {
     typeof payload === 'object' &&
     payload !== null &&
     'message' in payload &&
-    typeof (payload as { message: unknown }).message === 'string'
-      ? (payload as { message: string }).message
+    typeof payload.message === 'string'
+      ? payload.message
       : 'Не удалось выполнить запрос к серверу';
 
   return new Error(message, { cause: payload });
