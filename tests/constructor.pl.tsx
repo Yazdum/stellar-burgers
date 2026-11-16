@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-import type { Page } from '@playwright/test';
+import type { Locator, Page } from '@playwright/test';
 
 const bunName = 'Тестовая булка';
 const mainName = 'Тестовая начинка';
@@ -26,6 +26,11 @@ const addIngredient = async (page: Page, ingredientName: string): Promise<void> 
     .click();
 };
 
+const getConstructor = (page: Page): Locator =>
+  page
+    .locator('section')
+    .filter({ has: page.getByRole('button', { name: 'Оформить заказ' }) });
+
 test.beforeEach(async ({ page }) => {
   await mockApi(page);
   await page.goto('/');
@@ -37,9 +42,7 @@ test.describe('Добавление ингредиентов в конструк
     await addIngredient(page, bunName);
     await addIngredient(page, mainName);
 
-    const constructor = page
-      .locator('section')
-      .filter({ has: page.getByRole('button', { name: 'Оформить заказ' }) });
+    const constructor = getConstructor(page);
 
     await expect(constructor.getByText(`${bunName} (верх)`)).toBeVisible();
     await expect(constructor.getByText(`${bunName} (низ)`)).toBeVisible();
@@ -71,7 +74,8 @@ test.describe('Модальное окно ингредиента', () => {
     ).toBeVisible();
 
     await page
-      .locator('[class^="modal-overlay__overlay"]')
+      .locator('#modals > div')
+      .last()
       .click({ position: { x: 5, y: 5 } });
     await expect(page.locator('#modals')).toBeEmpty();
   });
@@ -98,9 +102,12 @@ test.describe('Создание заказа', () => {
     await page.getByRole('button', { name: 'Оформить заказ' }).click();
 
     const modal = page.locator('#modals');
+    const constructor = getConstructor(page);
     await expect(modal.getByText(String(orderNumber), { exact: true })).toBeVisible();
-    await expect(page.getByText('Выберите булки').first()).toBeVisible();
-    await expect(page.getByText('Выберите начинку')).toBeVisible();
+    await expect(constructor.getByText('Выберите булки')).toHaveCount(2);
+    await expect(constructor.getByText('Выберите начинку')).toBeVisible();
+    await expect(constructor.getByText(bunName, { exact: false })).toHaveCount(0);
+    await expect(constructor.getByText(mainName, { exact: true })).toHaveCount(0);
 
     await modal.getByRole('button', { name: 'Закрыть' }).click();
     await expect(modal).toBeEmpty();
