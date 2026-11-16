@@ -5,12 +5,16 @@ import type { OrderStatusProps } from './type';
 const STATUS_TEXT: Record<string, string | undefined> = {
   pending: 'Готовится',
   done: 'Выполнен',
+  canceled: 'Отменён',
+  cancelled: 'Отменён',
   created: 'Создан',
 };
 
 const STATUS_COLOR: Record<string, string | undefined> = {
   pending: '#E52B1A',
   done: '#00CCCC',
+  canceled: '#E52B1A',
+  cancelled: '#E52B1A',
   created: '#F2F2F3',
 };
 

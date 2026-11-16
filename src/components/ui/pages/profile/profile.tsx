@@ -17,7 +17,7 @@ export const ProfileUI = ({
     <div className={`mt-30 mr-15 ${styles.menu}`}>
       <ProfileMenu />
     </div>
-    <form className={`mt-30 ${styles.form}`} onSubmit={handleSubmit}>
+    <form className={`mt-30 ${styles.form}`} autoComplete="off" onSubmit={handleSubmit}>
       <>
         <div className="pb-6">
           <Input
@@ -26,6 +26,7 @@ export const ProfileUI = ({
             onChange={handleInputChange}
             value={formValue.name}
             name={'name'}
+            autoComplete={'name'}
             error={false}
             errorText={''}
             size={'default'}
@@ -39,6 +40,7 @@ export const ProfileUI = ({
             onChange={handleInputChange}
             value={formValue.email}
             name={'email'}
+            autoComplete={'email'}
             error={false}
             errorText={''}
             size={'default'}
@@ -52,6 +54,7 @@ export const ProfileUI = ({
             onChange={handleInputChange}
             value={formValue.password}
             name={'password'}
+            autoComplete={'new-password'}
             error={false}
             errorText={''}
             size={'default'}
